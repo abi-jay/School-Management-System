@@ -34,6 +34,7 @@ public class SMSRunner
         private Student currentStudent;
         private Scanner consoleInput;
         private StringBuilder stringBuilder;
+        private String email, password;
 
         public SMSRunner(){
             studentService = new StudentService();
@@ -71,7 +72,7 @@ public class SMSRunner
         }
 
     private int menu1() {
-        stringBuilder.append("\n1.Student Login\n2. Quit Application\nPlease Enter Selection: ");
+        stringBuilder.append("\n1. Student Login\n2. Quit Application\n Please Enter Selection: ");
         System.out.println(stringBuilder.toString());
         stringBuilder.delete(0, stringBuilder.length());
         return consoleInput.nextInt();
@@ -79,32 +80,43 @@ public class SMSRunner
 
     private boolean studentLogin() {
         System.out.println("Enter your email address: ");
-        String email = consoleInput.next();
+        email = consoleInput.next();
         System.out.println("Enter your password: ");
-        String password = consoleInput.next();
+        password = consoleInput.next();
 
 
-        if (studentService.validateStudent(email,password)) {
-            /*List<Course> courses = studentService.getStudentCourses(email);
-            System.out.println("My Classes :");
-            for (Course course : courses) {
-                System.out.println(course);
+        if (studentService.validateStudent(email, password)) {
+            System.out.println(studentService.getStudentByEmail(email));
+            List<Course> sCourses = studentService.getStudentCourses(email);
+            if (sCourses.isEmpty()) {
+                System.out.println("\nNo class registered. Please register!........");
             }
-            */
+            else{
+
+                    System.out.println("My Classes :");
+                    String leftAlignFormat = "| %-5s | %-15s | %-15s |%n";
+                    System.out.format("+------+-----------------+-------------------+%n");
+                    System.out.format("| ID   | Course Name     | Instructor Name   |%n");
+                    System.out.format("+------+-----------------+-------------------+%n");
+                    for (Course course : sCourses) {
+                        System.out.format(leftAlignFormat, course.getcId(), course.getcName(), course.getcInstructorName());
+                    }
+                    System.out.format("+------+-----------------+-------------------+%n");
+            }
             return true;
         }
         System.out.println("\nUser Validation failed. GoodBye!.......");
-
         return false;
     }
 
     private void registerMenu() {
-        stringBuilder.append("\n1.Register a class\n2. Logout\nPlease Enter Selection: ");
+        stringBuilder.append("\n1. Register a class\n2. Logout\n Please Enter Selection: ");
         System.out.println(stringBuilder.toString());
         stringBuilder.delete(0, stringBuilder.length());
 
         switch (consoleInput.nextInt()) {
             case 1:
+
                 List<Course> allCourses = courseService.getAllCourses();
                 List<Course> studentCourses = studentService.getStudentCourses(currentStudent.getsEmail());
                 // to display courses other than the ones user has already registered
@@ -116,7 +128,7 @@ public class SMSRunner
                 System.out.println("Enter Course Number: ");
                 int number = consoleInput.nextInt();
                 Course newCourse = courseService.getCourseByCId(number);
-
+                studentService.registerStudentToCourse(email, newCourse);
                 if (newCourse != null) {
                     //register current student in new course
                     studentService.registerStudentToCourse(currentStudent.getsEmail(), newCourse);
