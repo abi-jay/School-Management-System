@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class JdbcConfigurator {
     public static void executeQuery() throws SQLException, FileNotFoundException {
         TableConnection connection = new TableConnection();
-        connection.initialize();
+        connection.initializeConnection();
         try
         {
             Class.forName("com.mysql.jdbc.Driver");
@@ -24,14 +24,13 @@ public class JdbcConfigurator {
         }
         executeSqlFiles("populate-course.sql");
         executeSqlFiles("populate-student.sql");
+        connection.closeConnection();
     }
     private static void executeSqlFiles(String fileName) {
         String path = SMSRunner.class.getClassLoader().getResource(fileName).getPath();
         System.out.println(path);
         String s = new String();
         StringBuffer sb = new StringBuffer();
-
-
         try
         {
             File creationStatementFile = new File((new StringBuilder()

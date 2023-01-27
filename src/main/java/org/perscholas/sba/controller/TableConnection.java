@@ -17,27 +17,25 @@ public class TableConnection {
     public Session session;
     public Transaction transaction;
 
-    public void connect(){
-
-    }
-    public void initialize(){
+    public void initializeConnection(){
         factory = new Configuration().configure().buildSessionFactory();
         session = factory.openSession();
         transaction = session.beginTransaction();
     }
 
-    public void close(){
-        factory.close();
+    public void closeConnection(){
         session.close();
+        factory.close();
     }
     public void dropTables(){
-        initialize();
+        initializeConnection();
         try {
             Connection conn  = DriverManager.getConnection("jdbc:mysql://localhost:3306/sms", "abi","123");
             Statement stmt = conn.createStatement();
             stmt.execute("DROP TABLE if EXISTS `Student_Course`;");
             stmt.execute("DROP TABLE if EXISTS `Student`;");
             stmt.execute("DROP TABLE if EXISTS `Course`;");
+            closeConnection();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -45,11 +43,11 @@ public class TableConnection {
 
     }
     public  void createTables(){
-        initialize();
+        initializeConnection();
         Student student = new Student();
         Course course = new Course();
         transaction.commit();
         System.out.println("Successfully created table...........");
-        close();
+        closeConnection();
     }
 }
