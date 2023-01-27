@@ -25,8 +25,9 @@ import java.util.List;
  */
 public class SMSRunner
 {
-        public static StudentServiceInterface studentService = new StudentService();
-        public static TableConnection tableConnect = new TableConnection();
+        private static StudentServiceInterface studentService = new StudentService();
+        private static TableConnection tableConnect = new TableConnection();
+        private static Student currentStudent;
     public static void main(String[] args) throws SQLException, FileNotFoundException {
         System.out.println("\nSchool Management System.......");
         cleanUp();
@@ -35,6 +36,7 @@ public class SMSRunner
         retieveAll();
         lookUp();
         testJoin();
+
     }
 
     private static void cleanUp() {
@@ -55,7 +57,7 @@ public class SMSRunner
 
     private static void retieveAll() {
         System.out.println("\nRetrieving all Students.......");
-        for(Student student:studentService.getAllStudents()){
+        for(Student student :studentService.getAllStudents()){
             System.out.println(student.getsName());
         }
     }
