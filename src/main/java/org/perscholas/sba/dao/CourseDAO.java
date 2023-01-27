@@ -26,7 +26,7 @@ public class CourseDAO implements CourseDAOInterface {
         factory.close();
     }
     @Override
-    public List<Course> getAllCourses(String sEmail) {
+    public List<Course> getAllCourses() {
         initializeConnection();
         Query query=session.createQuery("from Course");
         List<Course> results = query.getResultList();

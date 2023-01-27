@@ -10,6 +10,7 @@ package org.perscholas.sba;
 import org.perscholas.sba.controller.TableConnection;
 import org.perscholas.sba.entitymodels.Course;
 import org.perscholas.sba.entitymodels.Student;
+import org.perscholas.sba.service.CourseService;
 import org.perscholas.sba.service.CourseServiceInterface;
 import org.perscholas.sba.service.StudentService;
 import org.perscholas.sba.service.StudentServiceInterface;
@@ -38,6 +39,7 @@ public class SMSRunner
 
         public SMSRunner(){
             studentService = new StudentService();
+            courseService = new CourseService();
             tableConnect = new TableConnection();
             consoleInput = new Scanner(System.in);
             stringBuilder = new StringBuilder();
@@ -65,6 +67,9 @@ public class SMSRunner
                 case 2:
                     System.out.println("Goodbye!");
                     break;
+                case 3:
+                    registerMenu();
+                    break;
 
                 default:
 
@@ -72,7 +77,7 @@ public class SMSRunner
         }
 
     private int menu1() {
-        stringBuilder.append("\n1. Student Login\n2. Quit Application\n Please Enter Selection: ");
+        stringBuilder.append("\n1. Student Login\n2. Quit Application\n   Please Enter Selection: ");
         System.out.println(stringBuilder.toString());
         stringBuilder.delete(0, stringBuilder.length());
         return consoleInput.nextInt();
@@ -93,7 +98,7 @@ public class SMSRunner
             }
             else{
 
-                    System.out.println("My Classes :");
+                    System.out.println("My Classes:");
                     String leftAlignFormat = "| %-5s | %-15s | %-15s |%n";
                     System.out.format("+------+-----------------+-------------------+%n");
                     System.out.format("| ID   | Course Name     | Instructor Name   |%n");
@@ -110,7 +115,7 @@ public class SMSRunner
     }
 
     private void registerMenu() {
-        stringBuilder.append("\n1. Register a class\n2. Logout\n Please Enter Selection: ");
+        stringBuilder.append("\n1. Register a class\n2. Logout\n   Please Enter Selection: ");
         System.out.println(stringBuilder.toString());
         stringBuilder.delete(0, stringBuilder.length());
 
@@ -118,13 +123,22 @@ public class SMSRunner
             case 1:
 
                 List<Course> allCourses = courseService.getAllCourses();
-                List<Course> studentCourses = studentService.getStudentCourses(currentStudent.getsEmail());
+                currentStudent = studentService.getStudentByEmail(email);
+                List<Course> studentCourses = currentStudent.getsCourses();
+                for (Course course : studentCourses) {
+                    System.out.println(course.getcName());
+                }
                 // to display courses other than the ones user has already registered
                 allCourses.removeAll(studentCourses);
-                System.out.printf("%5s%15S%15s\n", "ID", "Course", "Instructor");
+                String leftAlignFormat = "| %-4s | %-30s | %-20s |%n";
+                System.out.format("+------+--------------------------------+----------------------+%n");
+                System.out.format("| ID   | Course Name                    | Instructor Name      |%n");
+                System.out.format("+------+--------------------------------+----------------------+%n");
                 for (Course course : allCourses) {
-                    System.out.println(course);
+                    System.out.format(leftAlignFormat, course.getcId(), course.getcName(), course.getcInstructorName());
                 }
+                System.out.format("+------+--------------------------------+----------------------+%n");
+
                 System.out.println("Enter Course Number: ");
                 int number = consoleInput.nextInt();
                 Course newCourse = courseService.getCourseByCId(number);
@@ -132,21 +146,23 @@ public class SMSRunner
                 if (newCourse != null) {
                     //register current student in new course
                     studentService.registerStudentToCourse(currentStudent.getsEmail(), newCourse);
-                    //find the student
-                    String email = currentStudent.getsEmail();
-                    currentStudent = studentService.getStudentByEmail(email);
                     //display all the courses the student is registered in after adding the new one
                     List<Course> sCourses = studentService.getStudentCourses(email);
-                    System.out.println("My Classes :");
+                    System.out.println("My Classes:");
+                    String rightAlignFormat = "| %-6s | %-20s | %-20s |%n";
+                    System.out.format("+------+---------------------------+-----------------------------+%n");
+                    System.out.format("| ID   | Course Name               | Instructor Name             |%n");
+                    System.out.format("+------+---------------------------+-----------------------------+%n");
                     for (Course course : sCourses) {
-                        System.out.println(course);
+                        System.out.format(rightAlignFormat, course.getcId(), course.getcName(), course.getcInstructorName());
                     }
+                    System.out.format("+------+---------------------------+-----------------------------+%n");
 
                 }
                 break;
             case 2:
             default:
-                System.out.println("Goodbye!");
+                System.out.println("Goodbye!.......");
         }
     }
         private void cleanUp() {

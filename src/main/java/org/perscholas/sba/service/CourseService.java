@@ -4,6 +4,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.perscholas.sba.dao.CourseDAO;
+import org.perscholas.sba.dao.CourseDAOInterface;
+import org.perscholas.sba.dao.StudentDAO;
+import org.perscholas.sba.dao.StudentDAOInterface;
 import org.perscholas.sba.entitymodels.Course;
 import org.perscholas.sba.entitymodels.Student;
 
@@ -31,7 +35,8 @@ public class CourseService implements CourseServiceInterface {
      */
     @Override
     public List<Course> getAllCourses() {
-        return null;
+        CourseDAOInterface courseDAO = new CourseDAO();
+        return courseDAO.getAllCourses();
     }
 
     @Override
