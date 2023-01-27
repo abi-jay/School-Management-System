@@ -7,9 +7,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "Course")
 public class Course implements Serializable {
-    private static final long serialVersionUID = 1L;
     @Id
-    @Column(name="cId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int cId;
     private String cName;
