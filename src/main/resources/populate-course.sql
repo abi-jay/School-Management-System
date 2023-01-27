@@ -1,0 +1,10 @@
+insert into Course (cId, cName, cInstructorName) values (1, 'English', 'Anderea Scamaden');
+insert into Course (cId, cName, cInstructorName) values (2, 'Mathematics', 'Eustace Niemetz');
+insert into Course (cId, cName, cInstructorName) values (3, 'Anatomy', 'Reynolds Pastor');
+insert into Course (cId, cName, cInstructorName) values (4, 'Organic Chemistry', 'Odessa Belcher');
+insert into Course (cId, cName, cInstructorName) values (5, 'Physics', 'Dani Swallow');
+insert into Course (cId, cName, cInstructorName) values (6, 'Digital Logic', 'Glenden Reilingen');
+insert into Course (cId, cName, cInstructorName) values (7, 'Object Oriented Programming', 'Giselle Ardy');
+insert into Course (cId, cName, cInstructorName) values (8, 'Data Structures', 'Carolan Stoller');
+insert into Course (cId, cName, cInstructorName) values (9, 'Politics', 'Carmita De Maine');
+insert into Course (cId, cName, cInstructorName) values (10, 'Art', 'Kingsly Doxsey');
