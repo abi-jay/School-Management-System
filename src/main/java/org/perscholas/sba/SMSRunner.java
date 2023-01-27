@@ -15,7 +15,8 @@ public class SMSRunner
     public static void main(String[] args) throws SQLException, FileNotFoundException {
         System.out.println("\nSchool Management System.......");
         System.out.println("Clean database......");
-        TableConnection create = new TableConnection();create.dropTables();
+        TableConnection create = new TableConnection();
+        create.dropTables();
         System.out.println("\nCreating Tables.......");
         create.createTables();
         System.out.println("\nInserting Records.......");
