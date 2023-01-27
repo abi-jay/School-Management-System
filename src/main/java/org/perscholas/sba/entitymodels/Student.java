@@ -1,17 +1,19 @@
 package org.perscholas.sba.entitymodels;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Student")
-public class Student {
+public class Student implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     private String sEmail;
     private String sName;
     private String sPassword;
-    @OneToMany(targetEntity = Course.class)
+    @OneToMany(targetEntity = Course.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Course> sCourses;
 
     public Student() {

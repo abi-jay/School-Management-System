@@ -33,7 +33,7 @@ public class SMSRunner
         System.out.println("\nRetrieving all Students.......");
         StudentServiceInterface studentService = new StudentService();
         for(Student student:studentService.getAllStudents()){
-           System.out.println(student.getsName());
+            System.out.println(student.getsName());
         }
 
         System.out.println("\nStudent Lookup by Email.......");
