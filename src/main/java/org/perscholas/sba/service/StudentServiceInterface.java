@@ -16,6 +16,6 @@ public interface StudentServiceInterface {
     List<Student> getAllStudents();
     Student getStudentByEmail(String sEmail);
     Boolean validateStudent(String sEmail, String sPassword);
-    void registerStudentToCourse(String sEmail, int cId);
+    void registerStudentToCourse(String sEmail, Course newCourse);
     List<Course> getStudentCourses(String sEmail);
 }

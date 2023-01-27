@@ -16,7 +16,7 @@ public interface StudentDAOInterface {
      List<Student> getAllStudents();
      Student getStudentByEmail(String sEmail);
      Boolean validateStudent(String sEmail, String sPassword);
-     void registerStudentToCourse(String sEmail, int cId);
+     void registerStudentToCourse(String sEmail, Course sCourse);
      List<Course> getStudentCourses(String sEmail);
 
 

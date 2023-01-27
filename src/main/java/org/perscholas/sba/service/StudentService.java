@@ -29,16 +29,20 @@ public class StudentService implements StudentServiceInterface {
 
     @Override
     public Boolean validateStudent(String sEmail, String sPassword) {
-        return null;
+
+        StudentDAOInterface studentDAO = new StudentDAO();
+        return studentDAO.validateStudent(sEmail, sPassword);
     }
 
     @Override
-    public void registerStudentToCourse(String sEmail, int cId) {
-
+    public void registerStudentToCourse(String sEmail, Course newCourse) {
+        StudentDAOInterface studentDAO = new StudentDAO();
+        studentDAO.registerStudentToCourse(sEmail,newCourse);
     }
 
     @Override
     public List<Course> getStudentCourses(String sEmail) {
-        return null;
+        StudentDAOInterface studentDAO = new StudentDAO();
+        return studentDAO.getStudentCourses(sEmail);
     }
 }

@@ -9,4 +9,5 @@ public interface CourseServiceInterface {
      * getAllCourses();
      */
     List<Course> getAllCourses();
+    Course getCourseByCId(int cId);
 }

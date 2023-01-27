@@ -44,12 +44,12 @@ public class SMSRunner
         public static void main(String[] args) throws SQLException, FileNotFoundException {
             SMSRunner sms = new SMSRunner();
             System.out.println("\nSchool Management System.......");
-            sms.cleanUp();
+            /*sms.cleanUp();
             sms.createTable();
             sms.insertRecordsFromSql();
-            sms.retieveAll();
+            sms.retrieveAll();
             sms.lookUp();
-            sms.testJoin();
+            sms.testJoin();*/
             sms.run();
 
         }
@@ -78,25 +78,24 @@ public class SMSRunner
     }
 
     private boolean studentLogin() {
-        boolean returnValue = false;
         System.out.println("Enter your email address: ");
         String email = consoleInput.next();
         System.out.println("Enter your password: ");
         String password = consoleInput.next();
 
-        currentStudent = studentService.getStudentByEmail(email);
 
-        if (currentStudent != null & currentStudent.getsPassword().equals(password)) {
-            List<Course> courses = studentService.getStudentCourses(email);
+        if (studentService.validateStudent(email,password)) {
+            /*List<Course> courses = studentService.getStudentCourses(email);
             System.out.println("My Classes :");
             for (Course course : courses) {
                 System.out.println(course);
             }
-            returnValue = true;
-        } else {
-            System.out.println("User Validation failed. GoodBye!");
+            */
+            return true;
         }
-        return returnValue;
+        System.out.println("\nUser Validation failed. GoodBye!.......");
+
+        return false;
     }
 
     private void registerMenu() {
@@ -116,20 +115,21 @@ public class SMSRunner
                 }
                 System.out.println("Enter Course Number: ");
                 int number = consoleInput.nextInt();
-                Course newCourse = courseService.GetCourseById(number).get(0);
+                Course newCourse = courseService.getCourseByCId(number);
 
                 if (newCourse != null) {
-                    studentService.registerStudentToCourse(currentStudent.getStudentEmail(), newCourse);
-                    Student temp = studentService.getStudentByEmail(currentStudent.getStudentEmail()).get(0);
-
-                    StudentCourseService scService = new StudentCourseService();
-                    List<Course> sCourses = scService.getAllStudentCourses(temp.getStudentEmail());
-
-
+                    //register current student in new course
+                    studentService.registerStudentToCourse(currentStudent.getsEmail(), newCourse);
+                    //find the student
+                    String email = currentStudent.getsEmail();
+                    currentStudent = studentService.getStudentByEmail(email);
+                    //display all the courses the student is registered in after adding the new one
+                    List<Course> sCourses = studentService.getStudentCourses(email);
                     System.out.println("My Classes :");
                     for (Course course : sCourses) {
                         System.out.println(course);
                     }
+
                 }
                 break;
             case 2:
@@ -153,7 +153,7 @@ public class SMSRunner
             connect.executeQuery();
         }
 
-        private void retieveAll() {
+        private void retrieveAll() {
             System.out.println("\nRetrieving all Students.......");
             for(Student student :studentService.getAllStudents()){
                 System.out.println(student.getsName());

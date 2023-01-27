@@ -8,5 +8,5 @@ public interface CourseDAOInterface {
     /**
      * getAllCourses();
      */
-    List<Course> getAllCourses();
+    List<Course> getAllCourses(String sEmail);
 }
