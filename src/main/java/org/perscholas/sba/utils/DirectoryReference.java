@@ -17,6 +17,7 @@ public enum DirectoryReference {
 
     DirectoryReference(String path) {
         this.path = path;
+        System.out.println("$$$$"+path);
     }
 
     public File getDirectoryFile() {

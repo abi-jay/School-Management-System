@@ -14,11 +14,13 @@ public class SMSRunner
 {
     public static void main(String[] args) throws SQLException, FileNotFoundException {
         System.out.println("\nSchool Management System.......");
+        System.out.println("Clean database......");
+        TableConnection create = new TableConnection();create.dropTables();
         System.out.println("\nCreating Tables.......");
-        TableConnection create = new TableConnection();
         create.createTables();
         System.out.println("\nInserting Records.......");
         JdbcConfigurator connect = new JdbcConfigurator();
         connect.executeQuery();
+
     }
 }

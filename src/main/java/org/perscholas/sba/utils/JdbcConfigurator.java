@@ -24,10 +24,10 @@ public class JdbcConfigurator {
             System.out.println("Error : "+e.toString());
             e.printStackTrace();
         }
-        executeSqlFile("populate-course.sql");
-        executeSqlFile("populate-student.sql");
+        executeSqlFiles("populate-course.sql");
+        executeSqlFiles("populate-student.sql");
     }
-    private static void executeSqlFile(String fileName) throws SQLException, FileNotFoundException {
+    /*private static void executeSqlFile(String fileName) throws SQLException, FileNotFoundException {
         File creationStatementFile = DirectoryReference.RESOURCE_DIRECTORY.getFileFromDirectory(fileName);
         FileReader fileReader = new FileReader(creationStatementFile.getAbsolutePath());
         System.out.println(creationStatementFile.getAbsolutePath());
@@ -46,29 +46,41 @@ public class JdbcConfigurator {
             }
         }
     }
-    /*private static void executeSqlFiles(String fileName) {
+    */
+    private static void executeSqlFiles(String fileName) {
         String path = SMSRunner.class.getClassLoader().getResource(fileName).getPath();
         System.out.println(path);
         String s = new String();
         StringBuffer sb = new StringBuffer();
 
+
         try
         {
-            FileReader fr = new FileReader(new File(path));
+            File creationStatementFile = new File((new StringBuilder()
+                    .append(System.getProperty("user.dir")) // local directory
+                    .append("/src/main/resources/")
+                    .append(fileName))
+                    .toString());
+            //File creationStatementFile = new File(filePath);
+            //File creationStatementFile = DirectoryReference.RESOURCE_DIRECTORY.getFileFromDirectory(fileName);
+            //File creationStatementFile = ge
+            FileReader fileReader = new FileReader(creationStatementFile.getAbsolutePath());
+            System.out.println(creationStatementFile.getAbsolutePath());
+            //FileReader fr = new FileReader(new File(path));
             // be sure to not have line starting with "--" or "/*" or any other non aplhabetical character
 
-            BufferedReader br = new BufferedReader(fr);
+            //BufferedReader br = new BufferedReader(fileReader);
 
-            while((s = br.readLine()) != null)
-            {
-                sb.append(s);
-            }
-            br.close();
+            //while((s = br.readLine()) != null)
+            //{
+            //    sb.append(s);
+            //}
+            //br.close();
 
             // here is our splitter ! We use ";" as a delimiter for each request
             // then we are sure to have well formed statements
-            String[] statements = sb.toString().split(";");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/", "abi","123");
+            String[] statements = fileReader.toString().split(";");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sms", "abi","123");
             Statement stmt = conn.createStatement();
 
             for(int i = 0; i<statements.length; i++)
@@ -92,5 +104,5 @@ public class JdbcConfigurator {
             System.out.println("################################################");
             System.out.println(sb.toString());
         }
-    }*/
+    }
 }
