@@ -20,9 +20,10 @@ public class StudentDAO implements StudentDAOInterface {
      * registerStudentToCourse();
      * getStudentCourses();
      */
-    public SessionFactory factory;
-    public Session session;
-    public Transaction transaction;
+    private SessionFactory factory;
+    private Session session;
+    private Transaction transaction;
+    private Student student;
 
     public void initializeConnection(){
         factory = new Configuration().configure().buildSessionFactory();
@@ -48,7 +49,7 @@ public class StudentDAO implements StudentDAOInterface {
         String hql = "FROM Student s where s.sEmail =:sEmail";
         TypedQuery query = session.createQuery(hql, Student.class);
         query.setParameter("sEmail",sEmail);
-        Student student = (Student) query.getSingleResult();
+        student = (Student) query.getSingleResult();
         closeConnection();
         return student;
     }
