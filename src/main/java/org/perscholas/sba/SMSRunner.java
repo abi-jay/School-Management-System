@@ -10,6 +10,7 @@ package org.perscholas.sba;
 import org.perscholas.sba.controller.TableConnection;
 import org.perscholas.sba.entitymodels.Course;
 import org.perscholas.sba.entitymodels.Student;
+import org.perscholas.sba.service.CourseServiceInterface;
 import org.perscholas.sba.service.StudentService;
 import org.perscholas.sba.service.StudentServiceInterface;
 import org.perscholas.sba.utils.JdbcConfigurator;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
 /**
  * main java
  *
@@ -27,6 +29,7 @@ import java.util.Scanner;
 public class SMSRunner
 {
         private StudentServiceInterface studentService;
+        private CourseServiceInterface courseService;
         private TableConnection tableConnect;
         private Student currentStudent;
         private Scanner consoleInput;
@@ -47,8 +50,93 @@ public class SMSRunner
             sms.retieveAll();
             sms.lookUp();
             sms.testJoin();
+            sms.run();
 
         }
+        private void run() {
+            // Login or quit
+            switch (menu1()) {
+                case 1:
+                    if (studentLogin()) {
+                        registerMenu();
+                    }
+                    break;
+                case 2:
+                    System.out.println("Goodbye!");
+                    break;
+
+                default:
+
+            }
+        }
+
+    private int menu1() {
+        stringBuilder.append("\n1.Student Login\n2. Quit Application\nPlease Enter Selection: ");
+        System.out.println(stringBuilder.toString());
+        stringBuilder.delete(0, stringBuilder.length());
+        return consoleInput.nextInt();
+    }
+
+    private boolean studentLogin() {
+        boolean returnValue = false;
+        System.out.println("Enter your email address: ");
+        String email = consoleInput.next();
+        System.out.println("Enter your password: ");
+        String password = consoleInput.next();
+
+        currentStudent = studentService.getStudentByEmail(email);
+
+        if (currentStudent != null & currentStudent.getsPassword().equals(password)) {
+            List<Course> courses = studentService.getStudentCourses(email);
+            System.out.println("My Classes :");
+            for (Course course : courses) {
+                System.out.println(course);
+            }
+            returnValue = true;
+        } else {
+            System.out.println("User Validation failed. GoodBye!");
+        }
+        return returnValue;
+    }
+
+    private void registerMenu() {
+        stringBuilder.append("\n1.Register a class\n2. Logout\nPlease Enter Selection: ");
+        System.out.println(stringBuilder.toString());
+        stringBuilder.delete(0, stringBuilder.length());
+
+        switch (consoleInput.nextInt()) {
+            case 1:
+                List<Course> allCourses = courseService.getAllCourses();
+                List<Course> studentCourses = studentService.getStudentCourses(currentStudent.getsEmail());
+                // to display courses other than the ones user has already registered
+                allCourses.removeAll(studentCourses);
+                System.out.printf("%5s%15S%15s\n", "ID", "Course", "Instructor");
+                for (Course course : allCourses) {
+                    System.out.println(course);
+                }
+                System.out.println("Enter Course Number: ");
+                int number = consoleInput.nextInt();
+                Course newCourse = courseService.GetCourseById(number).get(0);
+
+                if (newCourse != null) {
+                    studentService.registerStudentToCourse(currentStudent.getStudentEmail(), newCourse);
+                    Student temp = studentService.getStudentByEmail(currentStudent.getStudentEmail()).get(0);
+
+                    StudentCourseService scService = new StudentCourseService();
+                    List<Course> sCourses = scService.getAllStudentCourses(temp.getStudentEmail());
+
+
+                    System.out.println("My Classes :");
+                    for (Course course : sCourses) {
+                        System.out.println(course);
+                    }
+                }
+                break;
+            case 2:
+            default:
+                System.out.println("Goodbye!");
+        }
+    }
         private void cleanUp() {
                 System.out.println("Clean database......");
                 tableConnect.dropTables();
