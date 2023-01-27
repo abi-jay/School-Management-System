@@ -91,7 +91,7 @@ public class SMSRunner
 
 
         if (studentService.validateStudent(email, password)) {
-            System.out.println(studentService.getStudentByEmail(email));
+            //System.out.println(studentService.getStudentByEmail(email));
             List<Course> sCourses = studentService.getStudentCourses(email);
             if (sCourses.isEmpty()) {
                 System.out.println("\nNo class registered. Please register!........");
@@ -125,11 +125,9 @@ public class SMSRunner
                 List<Course> allCourses = courseService.getAllCourses();
                 currentStudent = studentService.getStudentByEmail(email);
                 List<Course> studentCourses = currentStudent.getsCourses();
-                for (Course course : studentCourses) {
-                    System.out.println(course.getcName());
-                }
                 // to display courses other than the ones user has already registered
                 allCourses.removeAll(studentCourses);
+                System.out.println("\nAll Courses:");
                 String leftAlignFormat = "| %-4s | %-30s | %-20s |%n";
                 System.out.format("+------+--------------------------------+----------------------+%n");
                 System.out.format("| ID   | Course Name                    | Instructor Name      |%n");
@@ -142,21 +140,22 @@ public class SMSRunner
                 System.out.println("Enter Course Number: ");
                 int number = consoleInput.nextInt();
                 Course newCourse = courseService.getCourseByCId(number);
+                //System.out.println(newCourse.getcName());
                 studentService.registerStudentToCourse(email, newCourse);
                 if (newCourse != null) {
                     //register current student in new course
                     studentService.registerStudentToCourse(currentStudent.getsEmail(), newCourse);
                     //display all the courses the student is registered in after adding the new one
                     List<Course> sCourses = studentService.getStudentCourses(email);
-                    System.out.println("My Classes:");
-                    String rightAlignFormat = "| %-6s | %-20s | %-20s |%n";
-                    System.out.format("+------+---------------------------+-----------------------------+%n");
-                    System.out.format("| ID   | Course Name               | Instructor Name             |%n");
-                    System.out.format("+------+---------------------------+-----------------------------+%n");
+                    System.out.println("\nMy Classes:");
+                    String rightAlignFormat = "| %-4s | %-30s | %-20s |%n";
+                    System.out.format("+------+--------------------------------+----------------------+%n");
+                    System.out.format("| ID   | Course Name                    | Instructor Name      |%n");
+                    System.out.format("+------+--------------------------------+----------------------+%n");
                     for (Course course : sCourses) {
                         System.out.format(rightAlignFormat, course.getcId(), course.getcName(), course.getcInstructorName());
                     }
-                    System.out.format("+------+---------------------------+-----------------------------+%n");
+                    System.out.format("+------+--------------------------------+----------------------+%n");
 
                 }
                 break;

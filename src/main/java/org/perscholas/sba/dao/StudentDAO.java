@@ -70,22 +70,28 @@ public class StudentDAO implements StudentDAOInterface{
 
     @Override
     public void registerStudentToCourse(String sEmail, Course sCourse) {
-        initializeConnection();
+
         Student currentStudent = getStudentByEmail(sEmail);
         Course newCourse = new Course();
         List<Course> updatedCourses = getStudentCourses(sEmail);
-        for(Course cr : updatedCourses){
-            if(cr.getcId() == sCourse.getcId()){
-                System.out.println("You are already registered in that course!");
-                return;
-            }
+        List<Integer> list = new ArrayList<>();
+        for (Course cr : updatedCourses) {
+            list.add(cr.getcId());
+
         }
-        newCourse = session.find(Course.class, sCourse.getcId());
-        updatedCourses.add(newCourse);
-        currentStudent.setsCourses(updatedCourses);
-        session.merge(currentStudent);
-        session.getTransaction().commit();
-        closeConnection();
+        if (list.contains(sCourse.getcId())) {
+            System.out.println("You are already registered in that course!.........\nLogging out, Goodbye!..........");
+        }
+        else {
+            initializeConnection();
+            newCourse = session.find(Course.class, sCourse.getcId());
+            updatedCourses.add(newCourse);
+            currentStudent.setsCourses(updatedCourses);
+            session.merge(currentStudent);
+            session.getTransaction().commit();
+            System.out.println("You have successfully registered!.........\nLogging out, Goodbye!..........");
+            closeConnection();
+        }
 
         /*CourseDAOInterface courseDAO = new CourseDAO();
         List<Course> allCourses = courseDAO.getAllCourses(sEmail);
