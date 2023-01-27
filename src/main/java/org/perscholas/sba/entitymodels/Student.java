@@ -12,7 +12,7 @@ public class Student implements Serializable {
     private String sEmail;
     private String sName;
     private String sPassword;
-    @OneToMany(targetEntity = Course.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Course.class)
     private List<Course> sCourses;
 
     public Student() {
