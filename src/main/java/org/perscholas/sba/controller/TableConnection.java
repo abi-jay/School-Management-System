@@ -4,7 +4,8 @@
  * * 01/27/2023
  * * @author Abhinaya Jayakumar
  *
- */package org.perscholas.sba.controller;
+ */
+package org.perscholas.sba.controller;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,16 +24,33 @@ public class TableConnection {
     public Session session;
     public Transaction transaction;
 
+    /**
+     *
+     * * Set up factory session and transaction
+     *
+     */
     public void initializeConnection(){
         factory = new Configuration().configure().buildSessionFactory();
         session = factory.openSession();
         transaction = session.beginTransaction();
     }
 
+    /**
+     *
+     * * Close factory and session
+     *
+     */
     public void closeConnection(){
         session.close();
         factory.close();
     }
+    /**
+     *
+     * * Establish a connections
+     * * Drop the tables if they exist
+     * * Catch the exception if the connection fails
+     *
+     */
     public void dropTables(){
         initializeConnection();
         try {
@@ -48,6 +66,13 @@ public class TableConnection {
 
 
     }
+    /**
+     *
+     * * Establish a connections
+     * * Call two table constructors
+     * * Commit the transaction and close the connection
+     *
+     */
     public  void createTables(){
         initializeConnection();
         Student student = new Student();

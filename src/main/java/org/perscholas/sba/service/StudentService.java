@@ -25,6 +25,7 @@ public class StudentService implements StudentServiceInterface {
      * validateStudent();
      * registerStudentToCourse();
      * getStudentCourses();
+     * call the respective DAO layer
      */
     @Override
     public List<Student> getAllStudents() {
@@ -56,6 +57,14 @@ public class StudentService implements StudentServiceInterface {
         StudentDAOInterface studentDAO = new StudentDAO();
         return studentDAO.getStudentCourses(sEmail);
     }
+    /**
+     *
+     * * Establish a connections
+     * * Save or Update the Student object to the database
+     * * Commit the transaction
+     * * close the connection
+     *
+     */
     @Override
     public void saveStudent(Student student) {
         SessionFactory factory = new Configuration().configure().buildSessionFactory();

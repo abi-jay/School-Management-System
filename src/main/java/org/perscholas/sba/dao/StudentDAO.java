@@ -33,15 +33,32 @@ public class StudentDAO implements StudentDAOInterface{
     private Transaction transaction;
     private Student student;
 
+    /**
+     *
+     * * Set up factory session and transaction
+     *
+     */
     public void initializeConnection(){
         factory = new Configuration().configure().buildSessionFactory();
         session = factory.openSession();
         transaction = session.beginTransaction();
     }
+    /**
+     *
+     * * Close factory and session
+     *
+     */
     public void closeConnection(){
         session.close();
         factory.close();
     }
+    /**
+     *
+     * * Establish a connections
+     * * Query the results of select * from Student
+     * * close the connection
+     *
+     */
     @Override
     public List<Student> getAllStudents() {
         initializeConnection();
@@ -51,6 +68,14 @@ public class StudentDAO implements StudentDAOInterface{
         return results;
     }
 
+    /**
+     *
+     * * Establish a connections
+     * * Query the results of select * from Student where email = sEmail
+     * * return the Student object
+     * * close the connection
+     *
+     */
     @Override
     public Student getStudentByEmail(String sEmail) {
         initializeConnection();
@@ -62,6 +87,15 @@ public class StudentDAO implements StudentDAOInterface{
         return student;
     }
 
+    /**
+     *
+     * * Establish a connections
+     * * Find the student object with the email in the argument
+     * * Return true if the student exists and the password matches the argument
+     * * Return false otherwise
+     * * close the connection
+     *
+     */
     @Override
     public Boolean validateStudent(String sEmail, String sPassword) {
         initializeConnection();
@@ -74,7 +108,17 @@ public class StudentDAO implements StudentDAOInterface{
         return false;
     }
 
-    @Override
+    /**
+     *
+     * * Find the student object with the email in the argument
+     * * Get the list of courses the student has registered
+     * * Find if the student has already registered the selected course
+     * * If it is a new course, Establish a connection
+     * * Add the new course to the student course list
+     * * Commit the transaction
+     * * close the connection
+     *
+     */@Override
     public void registerStudentToCourse(String sEmail, Course sCourse) {
 
         Student currentStudent = getStudentByEmail(sEmail);
@@ -101,6 +145,14 @@ public class StudentDAO implements StudentDAOInterface{
 
     }
 
+    /**
+     *
+     * * Establish a connections
+     * * Find the student object with the email in the argument
+     * * return the list of Courses registered in the Student object
+     * * close the connection
+     *
+     */
     @Override
     public List<Course> getStudentCourses(String sEmail) {
         initializeConnection();

@@ -25,17 +25,28 @@ public class CourseService implements CourseServiceInterface {
     private Transaction transaction;
     private Course course;
 
+    /**
+     *
+     * * Set up factory session and transaction
+     *
+     */
     public void initializeConnection(){
         factory = new Configuration().configure().buildSessionFactory();
         session = factory.openSession();
         transaction = session.beginTransaction();
     }
+    /**
+     *
+     * * Close factory and session
+     *
+     */
     public void closeConnection(){
         session.close();
         factory.close();
     }
     /**
      * getAllCourses();
+     * call the respective DAO layer
      */
     @Override
     public List<Course> getAllCourses() {
@@ -43,6 +54,14 @@ public class CourseService implements CourseServiceInterface {
         return courseDAO.getAllCourses();
     }
 
+    /**
+     *
+     * * Establish a connections
+     * * Query the results of select * from Student where cid = cid
+     * * return the Course object
+     * * close the connection
+     *
+     */
     @Override
     public Course getCourseByCId(int cId) {
         initializeConnection();
@@ -53,6 +72,14 @@ public class CourseService implements CourseServiceInterface {
         closeConnection();
         return course;
     }
+    /**
+     *
+     * * Establish a connections
+     * * Save or Update the Course object to the database
+     * * Commit the transaction
+     * * close the connection
+     *
+     */
     @Override
     public void saveCourse(Course course) {
         SessionFactory factory = new Configuration().configure().buildSessionFactory();

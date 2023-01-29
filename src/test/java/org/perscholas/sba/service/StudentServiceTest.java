@@ -17,6 +17,11 @@ import java.util.List;
 class StudentServiceTest {
     /**
      * Method under test: {StudentService#getStudentByEmail(String)}
+     *
+     * * Create a Student object
+     * * Find the student with this email
+     * * Test pass if the database retrieval is successful
+     *
      */
     @Test
     void testGetStudentByEmail() {
@@ -36,6 +41,12 @@ class StudentServiceTest {
 
     /**
      * Method under test: {StudentService#ValidateStudent(String)}
+     *
+     * * Create a Student object
+     * * Find the student with this email
+     * * Validate this with the one from database
+     * * Test pass if the database retrieval is successful
+     *
      */
     @Test
     void testValidateStudent() {
@@ -55,6 +66,13 @@ class StudentServiceTest {
 
     /**
      * Method under test: { StudentService#registerStudentToCourse(String, Course)}
+     *
+     * * Create a Student object
+     * * Create a Course object
+     * * Register this student to this Course
+     * * Find the list of courses the student is registered in
+     * * Test pass if the database retrieval is found in this list
+     *
      */
     @Test
     void testRegisterStudentToCourse() {

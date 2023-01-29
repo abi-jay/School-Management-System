@@ -21,15 +21,32 @@ public class CourseDAO implements CourseDAOInterface {
     private Session session;
     private Transaction transaction;
 
+    /**
+     *
+     * * Set up factory session and transaction
+     *
+     */
     public void initializeConnection(){
         factory = new Configuration().configure().buildSessionFactory();
         session = factory.openSession();
         transaction = session.beginTransaction();
     }
+    /**
+     *
+     * * Close factory and session
+     *
+     */
     public void closeConnection(){
         session.close();
         factory.close();
     }
+    /**
+     *
+     * * Establish a connections
+     * * Query the results of select * from Course
+     * * close the connection
+     *
+     */
     @Override
     public List<Course> getAllCourses() {
         initializeConnection();

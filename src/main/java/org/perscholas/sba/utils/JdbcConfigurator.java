@@ -15,6 +15,14 @@ import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.Scanner;
 
+/**
+ *
+ * * Establish a connections
+ * * Load JDBC Connectivity Driver
+ * * Execute the SQL Files
+ * * close the connection
+ *
+ */
 public class JdbcConfigurator {
     public static void executeQuery() throws SQLException, FileNotFoundException {
         TableConnection connection = new TableConnection();
@@ -33,7 +41,13 @@ public class JdbcConfigurator {
         executeSqlFiles("populate-student.sql");
         connection.closeConnection();
     }
-    private static void executeSqlFiles(String fileName) {
+    /**
+     *
+     * * Find the File path and use Scanner to read the lines
+     * * Separate lines and create Statements with the delimiter ;
+     * * Execute Update each queries
+     *
+     */private static void executeSqlFiles(String fileName) {
         String path = SMSRunner.class.getClassLoader().getResource(fileName).getPath();
         System.out.println(path);
         String s = new String();

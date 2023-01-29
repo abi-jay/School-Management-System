@@ -78,9 +78,13 @@ public class SMSRunner
                     }
                     break;
                 case 2:
+                    /**
+                     *
+                     * * 2. Logout
+                     *
+                     */
                     System.out.println("Goodbye!");
                     break;
-
                 default:
 
             }
@@ -93,18 +97,39 @@ public class SMSRunner
         return consoleInput.nextInt();
     }
 
+    /**
+     *
+     * * 1. Student Login
+     *
+     */
     private boolean studentLogin() {
         System.out.println("Enter your email address: ");
         email = consoleInput.next();
         System.out.println("Enter your password: ");
         password = consoleInput.next();
-
-
+        /**
+         *
+         * * If email password match with database, let the student register/logout
+         * * Else quit
+         *
+         */
         if (studentService.validateStudent(email, password)) {
             List<Course> sCourses = studentService.getStudentCourses(email);
+            /**
+             *
+             * * No courses registered so far
+             * * Display All the courses
+             *
+             */
             if (sCourses.isEmpty()) {
                 System.out.println("\nNo class registered. Please register!........");
             }
+            /**
+             *
+             * * Display the courses the student has registered
+             * * Take the student to the registration
+             *
+             */
             else{
 
                     System.out.println("My Classes:");
@@ -130,7 +155,14 @@ public class SMSRunner
 
         switch (consoleInput.nextInt()) {
             case 1:
-
+                /**
+                 *
+                 * * 1a. Register
+                 * * Get all the courses available
+                 * * Get the courses the student has already registered
+                 * * Display the courses other than the ones already registered
+                 *
+                 */
                 List<Course> allCourses = courseService.getAllCourses();
                 currentStudent = studentService.getStudentByEmail(email);
                 List<Course> studentCourses = currentStudent.getsCourses();
@@ -144,7 +176,13 @@ public class SMSRunner
                     System.out.format(leftAlignFormat, course.getcId(), course.getcName(), course.getcInstructorName());
                 }
                 System.out.format("+------+--------------------------------+----------------------+%n");
-
+                /**
+                 *
+                 * * Get the intended course id to register
+                 * * registerStudentToCourse
+                 * * Display the courses the student has registered
+                 *
+                 */
                 System.out.println("Enter Course Number: ");
                 int number = consoleInput.nextInt();
                 Course newCourse = courseService.getCourseByCId(number);
@@ -165,9 +203,19 @@ public class SMSRunner
                 break;
             case 2:
             default:
+                /**
+                 *
+                 * * 1b. Logout
+                 *
+                 */
                 System.out.println("Goodbye!.......");
         }
     }
+        /**
+         *
+         * * These are test methods in building this project
+         *
+         */
         private void cleanUp() {
                 System.out.println("Clean database......");
                 tableConnect.dropTables();
