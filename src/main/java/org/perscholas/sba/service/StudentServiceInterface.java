@@ -1,3 +1,10 @@
+/**
+ *
+ * * Filename: StudentServiceInterface.java
+ * * 01/27/2023
+ * * @author Abhinaya Jayakumar
+ *
+ */
 package org.perscholas.sba.service;
 
 import org.perscholas.sba.entitymodels.Course;
@@ -18,4 +25,5 @@ public interface StudentServiceInterface {
     Boolean validateStudent(String sEmail, String sPassword);
     void registerStudentToCourse(String sEmail, Course newCourse);
     List<Course> getStudentCourses(String sEmail);
+    void saveStudent(Student student);
 }

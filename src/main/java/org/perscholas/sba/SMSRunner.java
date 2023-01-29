@@ -47,12 +47,25 @@ public class SMSRunner
         public static void main(String[] args) throws SQLException, FileNotFoundException {
             SMSRunner sms = new SMSRunner();
             System.out.println("\nSchool Management System.......");
-            /*sms.cleanUp();
+            /**
+             * run this code initially to build the project
+             * drops tables
+             * sms.cleanUp();
+             * creates tables
+             * sms.createTable();
+             * reads the script files to insert records
+             * sms.insertRecordsFromSql();
+             * sms.retrieveAll();
+             * sms.lookUp();
+             * sms.testJoin();
+             * */
+            /**
+             * These 2 methods are only for the first time you run to establish the tables
+             * sms.createTable();
+             * sms.insertRecordsFromSql();
+             * */
             sms.createTable();
             sms.insertRecordsFromSql();
-            sms.retrieveAll();
-            sms.lookUp();
-            sms.testJoin();*/
             sms.run();
 
         }
@@ -66,9 +79,6 @@ public class SMSRunner
                     break;
                 case 2:
                     System.out.println("Goodbye!");
-                    break;
-                case 3:
-                    registerMenu();
                     break;
 
                 default:
@@ -91,7 +101,6 @@ public class SMSRunner
 
 
         if (studentService.validateStudent(email, password)) {
-            //System.out.println(studentService.getStudentByEmail(email));
             List<Course> sCourses = studentService.getStudentCourses(email);
             if (sCourses.isEmpty()) {
                 System.out.println("\nNo class registered. Please register!........");
@@ -125,7 +134,6 @@ public class SMSRunner
                 List<Course> allCourses = courseService.getAllCourses();
                 currentStudent = studentService.getStudentByEmail(email);
                 List<Course> studentCourses = currentStudent.getsCourses();
-                // to display courses other than the ones user has already registered
                 allCourses.removeAll(studentCourses);
                 System.out.println("\nAll Courses:");
                 String leftAlignFormat = "| %-4s | %-30s | %-20s |%n";
@@ -140,12 +148,8 @@ public class SMSRunner
                 System.out.println("Enter Course Number: ");
                 int number = consoleInput.nextInt();
                 Course newCourse = courseService.getCourseByCId(number);
-                //System.out.println(newCourse.getcName());
-                studentService.registerStudentToCourse(email, newCourse);
                 if (newCourse != null) {
-                    //register current student in new course
                     studentService.registerStudentToCourse(currentStudent.getsEmail(), newCourse);
-                    //display all the courses the student is registered in after adding the new one
                     List<Course> sCourses = studentService.getStudentCourses(email);
                     System.out.println("\nMy Classes:");
                     String rightAlignFormat = "| %-4s | %-30s | %-20s |%n";

@@ -1,3 +1,10 @@
+/**
+ *
+ * * Filename: JDBCConfigurator.java
+ * * 01/27/2023
+ * * @author Abhinaya Jayakumar
+ *
+ */
 package org.perscholas.sba.utils;
 
 import org.perscholas.sba.SMSRunner;
@@ -50,11 +57,11 @@ public class JdbcConfigurator {
         }
         catch(Exception e)
         {
-            System.out.println("*** Error : "+e.toString());
+            System.out.println("*** Error : "+e);
             System.out.println("*** ");
             System.out.println("*** Error : ");
             e.printStackTrace();
-            System.out.println(sb.toString());
+            System.out.println(sb);
         }
     }
 }

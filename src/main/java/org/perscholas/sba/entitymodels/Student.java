@@ -1,3 +1,10 @@
+/**
+ *
+ * * Filename: Student.java
+ * * 01/27/2023
+ * * @author Abhinaya Jayakumar
+ *
+ */
 package org.perscholas.sba.entitymodels;
 
 import javax.persistence.*;

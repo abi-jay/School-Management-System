@@ -1,3 +1,10 @@
+/**
+ *
+ * * Filename: CourseDAO.java
+ * * 01/27/2023
+ * * @author Abhinaya Jayakumar
+ *
+ */
 package org.perscholas.sba.dao;
 
 import org.hibernate.Session;
@@ -6,7 +13,6 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.perscholas.sba.entitymodels.Course;
-import org.perscholas.sba.entitymodels.Student;
 
 import java.util.List;
 
@@ -14,7 +20,6 @@ public class CourseDAO implements CourseDAOInterface {
     private SessionFactory factory;
     private Session session;
     private Transaction transaction;
-    private Student student;
 
     public void initializeConnection(){
         factory = new Configuration().configure().buildSessionFactory();

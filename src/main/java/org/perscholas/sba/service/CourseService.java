@@ -1,3 +1,10 @@
+/**
+ *
+ * * Filename: CourseService.java
+ * * 01/27/2023
+ * * @author Abhinaya Jayakumar
+ *
+ */
 package org.perscholas.sba.service;
 
 import org.hibernate.Session;
@@ -6,10 +13,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.perscholas.sba.dao.CourseDAO;
 import org.perscholas.sba.dao.CourseDAOInterface;
-import org.perscholas.sba.dao.StudentDAO;
-import org.perscholas.sba.dao.StudentDAOInterface;
 import org.perscholas.sba.entitymodels.Course;
-import org.perscholas.sba.entitymodels.Student;
 
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -48,5 +52,15 @@ public class CourseService implements CourseServiceInterface {
         course = (Course) query.getSingleResult();
         closeConnection();
         return course;
+    }
+    @Override
+    public void saveCourse(Course course) {
+        SessionFactory factory = new Configuration().configure().buildSessionFactory();
+        Session session = factory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.saveOrUpdate(course);
+        transaction.commit();
+        factory.close();
+        session.close();
     }
 }

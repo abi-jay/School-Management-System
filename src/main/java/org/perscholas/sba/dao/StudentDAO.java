@@ -1,3 +1,10 @@
+/**
+ *
+ * * Filename: StudentDAO.java
+ * * 01/27/2023
+ * * @author Abhinaya Jayakumar
+ *
+ */
 package org.perscholas.sba.dao;
 
 
@@ -6,7 +13,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
-import org.perscholas.sba.controller.TableConnection;
 import org.perscholas.sba.entitymodels.Course;
 import org.perscholas.sba.entitymodels.Student;
 
@@ -76,11 +82,11 @@ public class StudentDAO implements StudentDAOInterface{
         List<Course> updatedCourses = getStudentCourses(sEmail);
         List<Integer> list = new ArrayList<>();
         for (Course cr : updatedCourses) {
+            System.out.println(cr.getcId());
             list.add(cr.getcId());
-
         }
         if (list.contains(sCourse.getcId())) {
-            System.out.println("You are already registered in that course!.........\nLogging out, Goodbye!..........");
+            System.out.println("You have already registered in that course!.........\nLogging out, Goodbye!..........");
         }
         else {
             initializeConnection();
@@ -93,17 +99,6 @@ public class StudentDAO implements StudentDAOInterface{
             closeConnection();
         }
 
-        /*CourseDAOInterface courseDAO = new CourseDAO();
-        List<Course> allCourses = courseDAO.getAllCourses(sEmail);
-        // to display courses other than the ones user has already registered
-        List<Course> studentCourses = getStudentCourses(sEmail);
-        allCourses.removeAll(studentCourses);
-        Course c3 = new Course();
-        c3.setcId(103);
-        c3.setcName("Java");
-        c3.setcInstructorName("Ecstasy");
-        return allCourses;*/
-
     }
 
     @Override
@@ -113,16 +108,5 @@ public class StudentDAO implements StudentDAOInterface{
         List<Course> allCourses = currentStudent.getsCourses();
         closeConnection();
         return allCourses;
-        /*Query query=session.createQuery("from Course");
-        List<Course> results = query.getResultList();
-        closeConnection();
-        return results;
-        initializeConnection();
-        String hql = "FROM Student s where s.sEmail =:sEmail";
-        TypedQuery query = session.createQuery(hql, Student.class);
-        query.setParameter("sEmail",sEmail);
-        student = (Student) query.getSingleResult();
-        closeConnection();
-        return student;*/
     }
 }
